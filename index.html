@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<script>document.documentElement.className='js';</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>璀璨之翼 - 我的世界生存服务器</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'><rect width='32' height='32' fill='%231A1A3E'/><rect x='5' y='13' width='2' height='2' fill='%23FFD700'/><rect x='7' y='11' width='2' height='2' fill='%23FFD700'/><rect x='7' y='13' width='2' height='6' fill='%23FFD700'/><rect x='9' y='9' width='2' height='2' fill='%23FFE44D'/><rect x='9' y='11' width='2' height='10' fill='%23FFD700'/><rect x='11' y='11' width='2' height='8' fill='%23FFE44D'/><rect x='27' y='13' width='2' height='2' fill='%23FFD700'/><rect x='25' y='11' width='2' height='2' fill='%23FFD700'/><rect x='25' y='13' width='2' height='6' fill='%23FFD700'/><rect x='23' y='9' width='2' height='2' fill='%23FFE44D'/><rect x='23' y='11' width='2' height='10' fill='%23FFD700'/><rect x='21' y='11' width='2' height='8' fill='%23FFE44D'/><rect x='14' y='9' width='4' height='2' fill='%2380DEEA'/><rect x='12' y='11' width='8' height='5' fill='%234DD0E1'/><rect x='14' y='16' width='4' height='4' fill='%2300838F'/><rect x='15' y='10' width='2' height='2' fill='white'/><rect x='15' y='4' width='2' height='2' fill='white'/><rect x='3' y='22' width='2' height='2' fill='white'/><rect x='27' y='22' width='2' height='2' fill='white'/></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+/* ===== 全局重置与变量 ===== */
+:root {
+  --grass: #5D9C3C;
+  --grass-dark: #4A8A2E;
+  --grass-light: #7AB855;
+  --dirt: #8B5A2B;
+  --dirt-dark: #6B4423;
+  --dirt-light: #A67C52;
+  --stone: #7D7D7D;
+  --stone-dark: #5A5A5A;
+  --stone-light: #A0A0A0;
+  --diamond: #4DD0E1;
+  --gold: #FFD700;
+  --redstone: #E53935;
+  --emerald: #2ECC71;
+  --obsidian: #1A1A2E;
+  --night: #0D1117;
+  --sky: #87CEEB;
+  --sand: #E8D4A0;
+  --text-dark: #2C2C2C;
+  --text-light: #F5F5F5;
+  --pixel-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--night);
+  color: var(--text-light);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* 像素字体类 */
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+}
+
+/* 像素边框 */
+.pixel-border {
+  border: 4px solid var(--stone-dark);
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.15),
+    var(--pixel-shadow);
+}
+
+.pixel-border-green {
+  border: 4px solid var(--grass-dark);
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.15),
+    var(--pixel-shadow);
+}
+
+/* 像素按钮 */
+.pixel-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--text-light);
+  background: var(--grass);
+  border: 4px solid var(--grass-dark);
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.2),
+    4px 4px 0 rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  image-rendering: pixelated;
+}
+
+.pixel-btn:hover {
+  background: var(--grass-light);
+  transform: translate(-2px, -2px);
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.2),
+    6px 6px 0 rgba(0,0,0,0.5);
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.3),
+    inset 4px 4px 0 rgba(255,255,255,0.2),
+    2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.pixel-btn-gold {
+  background: var(--gold);
+  border-color: #B8860B;
+  color: var(--text-dark);
+}
+.pixel-btn-gold:hover { background: #FFE44D; }
+
+.pixel-btn-diamond {
+  background: var(--diamond);
+  border-color: #00838F;
+  color: var(--text-dark);
+}
+.pixel-btn-diamond:hover { background: #80DEEA; }
+
+/* ===== 导航栏 ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(180deg, var(--obsidian) 0%, rgba(26,26,46,0.95) 100%);
+  border-bottom: 4px solid var(--grass);
+  padding: 0 20px;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-light);
+}
+
+.nav-logo-icon {
+  width: 40px;
+  height: 40px;
+  background: #1A1A3E;
+  border: 3px solid #FFD700;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.1);
+  position: relative;
+  flex-shrink: 0;
+}
+.nav-logo-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #80DEEA 0%, #4DD0E1 50%, #00838F 100%);
+  border: 2px solid #FFD700;
+}
+.nav-logo-icon::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  box-shadow: -7px 7px 0 #fff, 7px 7px 0 #fff;
+}
+
+.nav-logo-text {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--grass-light);
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: 10px 18px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  border: 3px solid transparent;
+  transition: all 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background: rgba(93,156,60,0.2);
+  border-color: var(--grass);
+  color: var(--grass-light);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 3px solid var(--grass);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 3px;
+  background: var(--grass-light);
+}
+
+/* ===== 视图容器 ===== */
+.view {
+  display: none;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+.view.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 首页 Hero ===== */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('assets/hero.jpg') center/cover no-repeat;
+  filter: brightness(0.45) saturate(1.2);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.7) 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 6px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(93,156,60,0.25);
+  border: 3px solid var(--grass);
+  color: var(--grass-light);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+
+.hero-title {
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  text-shadow: 4px 4px 0 var(--obsidian), 8px 8px 0 rgba(0,0,0,0.3);
+}
+
+.hero-title .highlight {
+  color: var(--grass-light);
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: #C8C8C8;
+  margin-bottom: 36px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-value {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 var(--obsidian);
+}
+
+.hero-stat-label {
+  font-size: 13px;
+  color: #A0A0A0;
+  margin-top: 4px;
+}
+
+/* ===== 通用区块 ===== */
+.section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(93,156,60,0.15);
+  border: 2px solid var(--grass);
+  color: var(--grass-light);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: var(--text-light);
+}
+
+.section-desc {
+  font-size: 17px;
+  color: #A0A0A0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ===== 特色卡片 ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1100px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature-card {
+  background: linear-gradient(180deg, #1E2530 0%, #161C24 100%);
+  border: 4px solid var(--stone-dark);
+  padding: 32px 28px;
+  position: relative;
+  transition: transform 0.2s, border-color 0.2s;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.3), inset 4px 4px 0 rgba(255,255,255,0.05);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--grass);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 3px solid;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.3), inset 3px 3px 0 rgba(255,255,255,0.15);
+}
+
+.feature-icon.green { background: var(--grass); border-color: var(--grass-dark); }
+.feature-icon.gold { background: var(--gold); border-color: #B8860B; }
+.feature-icon.diamond { background: var(--diamond); border-color: #00838F; }
+.feature-icon.red { background: var(--redstone); border-color: #B71C1C; }
+
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-light);
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: #909090;
+  line-height: 1.7;
+}
+
+/* ===== 服务器信息条 ===== */
+.server-info-bar {
+  background: linear-gradient(90deg, var(--obsidian) 0%, #1A2332 50%, var(--obsidian) 100%);
+  border-top: 4px solid var(--grass);
+  border-bottom: 4px solid var(--grass);
+  padding: 40px 20px;
+}
+
+.server-info-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  text-align: center;
+  padding: 20px 28px;
+  background: rgba(93,156,60,0.08);
+  border: 3px solid rgba(93,156,60,0.3);
+  min-width: 200px;
+}
+
+.info-item-label {
+  font-size: 13px;
+  color: var(--grass-light);
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.info-item-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-light);
+  font-family: 'Courier New', monospace;
+}
+
+/* ===== 介绍页样式 ===== */
+.about-hero {
+  position: relative;
+  padding: 100px 20px 80px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('assets/isometric.jpg') center/cover no-repeat;
+  filter: brightness(0.3) saturate(1.3);
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0 var(--obsidian);
+}
+
+.about-hero p {
+  font-size: 18px;
+  color: #C0C0C0;
+  line-height: 1.9;
+}
+
+/* 规则列表 */
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rule-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: linear-gradient(90deg, rgba(93,156,60,0.08) 0%, transparent 100%);
+  border-left: 5px solid var(--grass);
+  padding: 20px 24px;
+}
+
+.rule-number {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: var(--grass);
+  border: 3px solid var(--grass-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--text-light);
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.3);
+}
+
+.rule-content h4 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--grass-light);
+}
+
+.rule-content p {
+  font-size: 15px;
+  color: #A0A0A0;
+  line-height: 1.7;
+}
+
+/* 玩法展示 */
+.gameplay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.guild-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.guild-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+@media (max-width: 900px) {
+  .guild-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .guild-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gameplay-card {
+  background: #161C24;
+  border: 4px solid var(--stone-dark);
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.gameplay-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--diamond);
+}
+
+.gameplay-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 4px solid var(--stone-dark);
+  image-rendering: auto;
+}
+
+.gameplay-body {
+  padding: 24px;
+}
+
+.gameplay-body h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--diamond);
+}
+
+.gameplay-body p {
+  font-size: 14px;
+  color: #909090;
+  line-height: 1.7;
+}
+
+/* ===== 联系页样式 ===== */
+.contact-hero {
+  padding: 100px 20px 60px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--obsidian) 0%, #0D1117 100%);
+}
+
+.contact-hero h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.contact-hero p {
+  font-size: 17px;
+  color: #A0A0A0;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+.contact-card {
+  background: linear-gradient(180deg, #1E2530 0%, #161C24 100%);
+  border: 4px solid var(--stone-dark);
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.contact-card:hover {
+  border-color: var(--grass);
+  transform: translateY(-4px);
+}
+
+.contact-card-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  border: 4px solid;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.3), inset 4px 4px 0 rgba(255,255,255,0.15);
+}
+
+.contact-card-icon.qq { background: #12B7F5; border-color: #0E8FC4; }
+.contact-card-icon.server { background: var(--grass); border-color: var(--grass-dark); }
+.contact-card-icon.rule { background: var(--gold); border-color: #B8860B; }
+.contact-card-icon.owner { background: #9C27B0; border-color: #6A1B9A; }
+.contact-card-icon.email { background: #42A5F5; border-color: #1565C0; }
+
+.contact-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.contact-card .contact-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--grass-light);
+  font-family: 'Courier New', monospace;
+  margin: 16px 0;
+  letter-spacing: 2px;
+}
+
+.contact-card p {
+  font-size: 14px;
+  color: #909090;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.copy-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: var(--stone);
+  border: 3px solid var(--stone-dark);
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Noto Sans SC', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.3), inset 3px 3px 0 rgba(255,255,255,0.1);
+}
+
+.copy-btn:hover {
+  background: var(--stone-light);
+}
+
+.copy-btn.copied {
+  background: var(--emerald);
+  border-color: #1B8C4E;
+}
+
+/* 加入指南 */
+.guide-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.guide-step {
+  display: flex;
+  gap: 24px;
+  padding: 24px 0;
+  position: relative;
+}
+
+.guide-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 72px;
+  bottom: -8px;
+  width: 4px;
+  background: var(--grass);
+}
+
+.guide-step-num {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: var(--grass);
+  border: 4px solid var(--grass-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--text-light);
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.3), inset 4px 4px 0 rgba(255,255,255,0.15);
+  z-index: 2;
+}
+
+.guide-step-content h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--grass-light);
+  padding-top: 12px;
+}
+
+.guide-step-content p {
+  font-size: 15px;
+  color: #A0A0A0;
+  line-height: 1.8;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  background: var(--obsidian);
+  border-top: 4px solid var(--grass);
+  padding: 48px 20px 32px;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: #707070;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.footer-divider {
+  width: 100%;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, var(--grass) 0, var(--grass) 20px, var(--dirt) 20px, var(--dirt) 40px);
+  margin: 24px 0;
+  opacity: 0.5;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ===== Toast 提示 ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--emerald);
+  border: 3px solid #1B8C4E;
+  color: var(--text-light);
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 15px;
+  z-index: 9999;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== 滚动揭示动画 ===== */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+html.js .reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .nav-logo {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--obsidian);
+    flex-direction: column;
+    padding: 16px;
+    gap: 4px;
+    border-bottom: 4px solid var(--grass);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 14px 18px; }
+  .nav-toggle { display: flex; }
+
+  .hero-stats { gap: 24px; }
+  .hero-stat-value { font-size: 26px; }
+
+  .section { padding: 56px 16px; }
+
+  .server-info-inner { gap: 16px; }
+  .info-item { min-width: 140px; padding: 16px; }
+  .info-item-value { font-size: 19px; }
+
+  .contact-grid { padding: 0 16px 60px; }
+  .guide-section { padding: 0 16px 60px; }
+
+  .rule-item { flex-direction: column; gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; align-items: center; }
+  .pixel-btn { width: 100%; max-width: 280px; text-align: center; }
+  .features-grid { grid-template-columns: 1fr; }
+  .gameplay-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 导航栏 ===== -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo" onclick="switchView('home')">
+      <div class="nav-logo-icon"></div>
+      <span class="nav-logo-text">璀璨之翼</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="switchView('home')" data-view="home">首页</a></li>
+      <li><a href="#about" onclick="switchView('about')" data-view="about">服务器介绍</a></li>
+      <li><a href="#rules" onclick="switchView('rules')" data-view="rules">游戏规则</a></li>
+      <li><a href="#contact" onclick="switchView('contact')" data-view="contact">联系我们</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== 视图：首页 ===== -->
+<div class="view active" id="view-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">死亡不掉落 · 半规则生存</div>
+      <h1 class="hero-title">欢迎来到<br><span class="highlight">璀璨之翼</span></h1>
+      <p class="hero-subtitle">
+        一个纯粹的 Minecraft 生存服务器 —— 死亡不掉落，轻松冒险无负担。<br>
+        在这里，每一次探索都值得，每一座建筑都永恒。
+      </p>
+      <div class="hero-actions">
+        <a href="#about" onclick="switchView('about')" class="pixel-btn">了解服务器</a>
+        <a href="#contact" onclick="switchView('contact')" class="pixel-btn pixel-btn-gold">立即加入</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">3839982</div>
+          <div class="hero-stat-label">服务器号</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">1081097656</div>
+          <div class="hero-stat-label">QQ交流群</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">24/7</div>
+          <div class="hero-stat-label">全天开放</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服务器信息条 -->
+  <div class="server-info-bar">
+    <div class="server-info-inner">
+      <div class="info-item">
+        <div class="info-item-label">服务器号</div>
+        <div class="info-item-value">3839982</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">游戏模式</div>
+        <div class="info-item-value">生存</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">核心规则</div>
+        <div class="info-item-value">死亡不掉落</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">QQ群号</div>
+        <div class="info-item-value">1081097656</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 特色亮点 -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-tag">为什么选择我们</div>
+      <h2 class="section-title">服务器特色</h2>
+      <p class="section-desc">精心打磨的生存体验，让每一位玩家都能找到属于自己的方块乐趣</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon green">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>死亡不掉落</h3>
+        <p>冒险再也不用担心装备丢失！死亡后物品全部保留，让你无畏探索深渊、挑战末影龙，专注享受生存的乐趣。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon gold">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3>半规则生存</h3>
+        <p>兼顾自由与秩序：保留原版生存的纯粹体验，同时设置合理规则保护玩家权益。不搞暴政，不纵容破坏，营造友好社区氛围。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon diamond">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#006064" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>稳定运行</h3>
+        <p>7x24 小时全天候在线，高性能服务器保障流畅游戏体验。定期备份数据，你的建筑和财产安全无忧。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon red">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>活跃社区</h3>
+        <p>加入 QQ 交流群，与志同道合的玩家一起探险、建城、搞红石。定期举办社区活动，新人友好，老手有爱。</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== 视图：服务器介绍 ===== -->
+<div class="view" id="view-about">
+  <section class="about-hero">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-content">
+      <div class="section-tag">关于服务器</div>
+      <h1>璀璨之翼生存服务器</h1>
+      <p>
+        我们致力于打造一个纯粹、友好、可持续的 Minecraft 生存社区。<br>
+        没有花里胡哨的氪金模组，只有最原汁原味的生存体验。<br>
+        死亡不掉落机制让每一次冒险都毫无后顾之忧。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-tag">玩法概览</div>
+      <h2 class="section-title">你可以做什么</h2>
+      <p class="section-desc">从初入世界的萌新到称霸一方的大佬，这里总有适合你的玩法</p>
+    </div>
+    <div class="gameplay-grid">
+      <div class="gameplay-card">
+        <img class="gameplay-img" src="assets/base.jpg" alt="生存基地">
+        <div class="gameplay-body">
+          <h3>建造生存基地</h3>
+          <p>从砍树挖矿开始，一步步打造属于你的避风港。无论是简约小木屋还是宏伟城堡，在这里都能实现。死亡不掉落让你安心建设，不怕前功尽弃。</p>
+        </div>
+      </div>
+      <div class="gameplay-card">
+        <img class="gameplay-img" src="assets/cabin.jpg" alt="建筑创作">
+        <div class="gameplay-body">
+          <h3>自由建筑创作</h3>
+          <p>广阔的地图等待你的创意发挥。和朋友一起建造小镇、城市甚至整个国度。服务器定期举办建筑比赛，展示你的建筑天赋。</p>
+        </div>
+      </div>
+      <div class="gameplay-card">
+        <img class="gameplay-img" src="assets/isometric.jpg" alt="探索冒险">
+        <div class="gameplay-body">
+          <h3>探索与冒险</h3>
+          <p>广袤的世界中有无数秘密等待发现。深入地牢、探索下界要塞、挑战末影龙。死亡不掉落意味着你可以毫无顾忌地深入险境。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工会系统 -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(156,39,176,0.15); border-color: #9C27B0; color: #CE93D8;">特色系统</div>
+      <h2 class="section-title">工会系统</h2>
+      <p class="section-desc">组建或加入工会，拥有受保护的专属领地，与伙伴共同建设、集体冒险。本系统依据《服务器工会系统管理条例与执行准则》运行。</p>
+    </div>
+
+    <!-- 工会权益 -->
+    <div class="guild-benefits">
+      <div class="feature-card">
+        <div class="feature-icon" style="background: #9C27B0; border-color: #6A1B9A;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>领地保护</h3>
+        <p>工会拥有专属保护领地，默认以核心地标为圆心、半径 150 格的圆形范围，领地内建筑和物资免受其他玩家破坏，安心建设家园。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: #9C27B0; border-color: #6A1B9A;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>共同建设</h3>
+        <p>工会领地归全体成员共同所有，成员可在领地内协作建造工会基地、公共设施和集体建筑，共享建筑空间，展现团队创意与凝聚力。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: #9C27B0; border-color: #6A1B9A;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>集体冒险</h3>
+        <p>工会成员可组队探索、挑战 Boss、共享资源和情报信息。配合死亡不掉落机制，团队冒险更加无畏尽兴，共同成长。</p>
+      </div>
+    </div>
+
+    <!-- 工会管理条例 -->
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(255,215,0,0.15); border-color: var(--gold); color: var(--gold);">管理条例</div>
+      <h2 class="section-title">工会管理条例</h2>
+      <p class="section-desc">依据《服务器工会系统管理条例与执行准则》整理，优先级高于通用游玩准则，全体工会成员须严格遵守</p>
+    </div>
+    <div class="rules-list">
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">1</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">创立准入条件</h4>
+          <p>申请创立工会的初始在册活跃人数必须 ≥ 3 人，禁止使用僵尸小号凑数申请；工会会长账号累计服务器在线时长需 ≥ 500 分钟，且无过往违规处罚记录；创建工会时会长须进入官方交流群，以及时接收重要通知。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">2</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">保护领地权属规则</h4>
+          <p>工会基础保护领地默认为以工会核心地标为圆心、半径 150 格的圆形范围，后续可根据工会运营贡献动态评估调整；领地所属权归全体工会成员共同所有，任何人不得私自侵占领地资源；工会须在领地入口设置公示牌，标注工会名称、负责人 ID、在会总人数；保护领地必须向服主提交正式申请，核验资质通过后方可激活保护权限，未获批的自建领地被损坏服务器概不赔偿。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">3</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">内部禁止操作规范</h4>
+          <p>严禁在工会保护领地内搭建违规设施，包括各类高频刷物机、占用大量算力的恶意红石机器、低俗违规景观，一经发现须 24 小时内自行拆除，逾期直接收回领地保护权限；严禁会长将公共领地私有化；所有自动化红石设施必须提前向管理组报备参数，禁止搭建超过 100 个高频随机刻的红石装置；工会内禁止留存任何外挂获取的违规物品，定期自查清理。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">4</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">对外交互规则</h4>
+          <p>未获得对应工会公开许可的外部玩家，绝对禁止进入工会保护领地开展任何操作（挖掘/放置方块、拿取物品、破坏红石等），均判定为违规入侵；严禁针对工会领地实施恶意骚扰（堵门、投掷负面药水、拆除外围标识等）；严禁利用服务器漏洞偷渡卡进工会领地；工会之间的约战必须提前向管理组报备，交战区域不能覆盖任意一方的保护领地；工会战战前双方会长须协商好败方赔偿，拒不赔偿将采取强制措施。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">5</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">违规处罚与申诉流程</h4>
+          <p>外部玩家首次非主观误闯并主动道歉给予口头警告；恶意入侵偷物、破坏领地须公开道歉并全额赔偿，二次及以上恶意违规直接永久踢出服务器并记入黑名单。工会自身首次违规予以正式警告并要求 3 天内整改；二次违规冻结工会保护权限 1 个月；三次违规永久收回保护领地并取消官方认证资格。工会领地被恶意破坏时，负责人可携带坐标 + 截图证据向服主举报，对处罚结果有异议可在官方交流群提交正式申诉，服主 24 小时内给出最终复核结果。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">6</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">内部自治与加入审核</h4>
+          <p>工会内部问题及因工会成员之间冲突导致的物品、建筑、装备等损失由工会自行承担，服务器管理层不介入管理与补偿。外人加入工会由工会会长及成员自行审核，因审核疏忽导致他人加入工会获取标签后造成的损失由工会自行承担（包括但不限于获取工会坐标、使用小号潜入公会等情形）。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服务器数据 -->
+  <div class="server-info-bar">
+    <div class="server-info-inner">
+      <div class="info-item">
+        <div class="info-item-label">服务器版本</div>
+        <div class="info-item-value" style="font-size: 18px;">租赁服3.10Bate</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">最大人数</div>
+        <div class="info-item-value">20人</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">死亡保护</div>
+        <div class="info-item-value">已开启</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">开放时间</div>
+        <div class="info-item-value">全天候</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 视图：游戏规则 ===== -->
+<div class="view" id="view-rules">
+  <section class="about-hero" style="padding-bottom: 40px;">
+    <div class="about-hero-bg" style="background: url('assets/blocks.jpg') center/cover; filter: brightness(0.25) saturate(1.5);"></div>
+    <div class="about-hero-content">
+      <div class="section-tag">半规则生存</div>
+      <h1>游戏规则</h1>
+      <p>本页规则依据《服务器管理员及成员游玩准则》整理发布，<br>所有玩家及管理员均须共同遵守，最终解释权归服主所有。</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 40px;">
+    <!-- 死亡不掉落 -->
+    <div class="section-header">
+      <div class="section-tag">核心机制</div>
+      <h2 class="section-title">死亡不掉落</h2>
+      <p class="section-desc">本服务器最大特色 —— 死亡后所有物品和经验全部保留</p>
+    </div>
+    <div class="rules-list" style="margin-bottom: 64px;">
+      <div class="rule-item">
+        <div class="rule-number">1</div>
+        <div class="rule-content">
+          <h4>物品全部保留</h4>
+          <p>无论因何种原因死亡（怪物攻击、坠落、岩浆、溺水等），背包和装备栏中的所有物品都会保留，不会掉落。</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">2</div>
+        <div class="rule-content">
+          <h4>经验值保留</h4>
+          <p>死亡后经验等级和经验值不会丢失，附魔和铁砧的投入不会白费。</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">3</div>
+        <div class="rule-content">
+          <h4>无畏探索</h4>
+          <p>有了死亡不掉落，你可以放心深入下界、探索远古城市、挑战凋灵和末影龙，再也不用因为怕掉装备而畏手畏脚。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 普通玩家违规项 -->
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(229,57,53,0.15); border-color: var(--redstone); color: #EF9A9A;">玩家须知</div>
+      <h2 class="section-title">普通玩家违规项及处理</h2>
+      <p class="section-desc">以下规则适用于全体玩家，违规将按对应措施严肃处理</p>
+    </div>
+    <div class="rules-list" style="margin-bottom: 64px;">
+      <div class="rule-item" style="border-left-color: var(--redstone);">
+        <div class="rule-number" style="background: var(--redstone); border-color: #B71C1C;">1</div>
+        <div class="rule-content">
+          <h4 style="color: #EF9A9A;">外挂零容忍</h4>
+          <p>对于使用外挂软件、外挂插件、第三方客户端的行为，服务器保持零容忍态度。一经发现，永久踢出服务器并拉黑处理，同时向网易公司反馈相关问题。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--redstone);">
+        <div class="rule-number" style="background: var(--redstone); border-color: #B71C1C;">2</div>
+        <div class="rule-content">
+          <h4 style="color: #EF9A9A;">违规辅助软件</h4>
+          <p>使用映射工具、连点器等违规软件进行明显或非明显攻击行为者，按以下阶梯处理：<br>
+          <strong>首次</strong>：警告并群内通报<br>
+          <strong>两次</strong>：服务器及群内通报批评，禁止加入服务器 1 天<br>
+          <strong>三次</strong>：永久踢出服务器且清除全部物品，并移交网易公司</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--redstone);">
+        <div class="rule-number" style="background: var(--redstone); border-color: #B71C1C;">3</div>
+        <div class="rule-content">
+          <h4 style="color: #EF9A9A;">禁止包庇作弊</h4>
+          <p>对于提供不切合实际或虚假证据、或根本不提供证据而包庇他人作弊行为者，一经查实，处以清空背包及清除标签的处理。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--redstone);">
+        <div class="rule-number" style="background: var(--redstone); border-color: #B71C1C;">4</div>
+        <div class="rule-content">
+          <h4 style="color: #EF9A9A;">恶意破坏与坐标泄露</h4>
+          <p>严禁使用外挂、作弊手段获取他人坐标并告知他人，或利用其他软件向他人发送坐标位置，导致地形、房屋等受损。对于恶意破坏主城及公共设施者，将视情节严重程度，采取删除游戏数据、临时封禁或永久封禁的处置措施。具有完整证据但态度恶劣拒不认罪者，可直接踢出处理。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 管理员行为规范 -->
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(255,215,0,0.15); border-color: var(--gold); color: var(--gold);">管理规范</div>
+      <h2 class="section-title">管理员核心行为规范</h2>
+      <p class="section-desc">本准则适用于服务器全体管理员及管理组成员，所有成员须共同遵守</p>
+    </div>
+    <div class="rules-list" style="margin-bottom: 64px;">
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">1</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">公平公正，禁止特权</h4>
+          <p>管理员账号仅用于自身正常游玩，严禁利用管理权限为普通玩家提供特殊帮助。严禁以任何形式向普通玩家售卖服务器内物品、道具、权限等，不得私自发放物资，保障全体玩家的公平游戏体验。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">2</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">指令区域管控</h4>
+          <p>非管理组成员一律禁止进入指令操作区域，管理员须自觉维护指令区访问权限，不擅自放行无关人员。如需添加带有不确定性效果的特殊指令，必须提前在管理群内报备，经服主审核同意后方可启用。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">3</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">游戏设置安全</h4>
+          <p>管理员严禁擅自开启生物破坏、TNT 爆炸、火焰蔓延等危险游戏设置，避免造成服务器大面积环境损毁及玩家财产损失。不得擅自关闭命令方块功能，保障服务器预设的自动化玩法与规则机制正常运行。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">4</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">惩罚操作报备</h4>
+          <p>管理员不得私自对普通玩家执行拆家、罚没物品、清空背包、关闭权限、囚禁玩家等惩罚类操作。所有此类操作必须提前向服主报备，或由服主本人执行。管理员不得主动帮助普通玩家建设功能机器，引导玩家独立体验完整生存过程。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--gold);">
+        <div class="rule-number" style="background: var(--gold); border-color: #B8860B; color: var(--text-dark);">5</div>
+        <div class="rule-content">
+          <h4 style="color: var(--gold);">管理群聊规范</h4>
+          <p>所有管理员必须加入官方管理群，指令报备、规则讨论、问题反馈均须在群内公开进行，不得私下商议违规操作。收到玩家违规举报后须及时截图留存证据并同步处置进度，不得私自压下举报。群内禁止发布与管理无关的广告、闲聊及刷屏内容。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 建筑划定规则 -->
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(77,208,225,0.15); border-color: var(--diamond); color: var(--diamond);">建筑规则</div>
+      <h2 class="section-title">建筑划定规则</h2>
+      <p class="section-desc">管理员家园及建筑的标识与保护规定</p>
+    </div>
+    <div class="rules-list" style="margin-bottom: 64px;">
+      <div class="rule-item" style="border-left-color: var(--diamond);">
+        <div class="rule-number" style="background: var(--diamond); border-color: #00838F; color: var(--text-dark);">1</div>
+        <div class="rule-content">
+          <h4 style="color: var(--diamond);">管理建筑标识要求</h4>
+          <p>所有管理员的私人家园、自建建筑必须建造在隐蔽区域，同时需要在家园或建筑的边缘位置放置标识清晰的告示牌，标注管理建筑属性。也可以在家园底部铺设拒绝方块作为特殊标识。</p>
+        </div>
+      </div>
+      <div class="rule-item" style="border-left-color: var(--diamond);">
+        <div class="rule-number" style="background: var(--diamond); border-color: #00838F; color: var(--text-dark);">2</div>
+        <div class="rule-content">
+          <h4 style="color: var(--diamond);">未标识建筑的免责声明</h4>
+          <p>没有张贴合规管理标识告示牌、底部也未放置拒绝方块或其他特殊标识方块的管理员家园或建筑，若被其他玩家损毁，损毁者无需承担相关责任，也无需进行赔偿。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 最终说明 -->
+    <div class="section-header">
+      <div class="section-tag">附则</div>
+      <h2 class="section-title">违规处理与最终解释</h2>
+      <p class="section-desc">本准则的执行框架与最终解释权说明</p>
+    </div>
+    <div class="rules-list">
+      <div class="rule-item">
+        <div class="rule-number" style="background: var(--stone); border-color: var(--stone-dark);">1</div>
+        <div class="rule-content">
+          <h4>违规处理措施</h4>
+          <p>对于恶意破坏主城及其他服务器公共设施的玩家或管理员，将参照正式发布的《服务器游戏运行规定》，视情节严重程度，采取删除玩家游戏数据、临时封禁或永久封禁玩家连接权限的处置措施。本条处罚规定适用于以上所有条例。</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number" style="background: var(--stone); border-color: var(--stone-dark);">2</div>
+        <div class="rule-content">
+          <h4>管理员违规处理</h4>
+          <p>如有管理组成员违反以上规定，将视违规情节严重程度，采取警告、暂停管理权限、直接踢出服务器的处置措施，且不退还任何相关费用。请全体成员互相监督、共同遵守。</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number" style="background: var(--stone); border-color: var(--stone-dark);">3</div>
+        <div class="rule-content">
+          <h4>最终解释权</h4>
+          <p>本准则的所有条款均在服务器基础通用规则框架下执行，准则的最终解释权归服主所有。本文件属性大于群公告中的相关规定，实际规定以此文件为准，文件随时更改，请以最后更改后的文件为准。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== 视图：联系我们 ===== -->
+<div class="view" id="view-contact">
+  <section class="contact-hero">
+    <div class="section-tag">加入我们</div>
+    <h1>联系 & 加入</h1>
+    <p>两步即可加入服务器，开始你的璀璨之翼冒险之旅</p>
+  </section>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-card-icon server">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="1"/><rect x="2" y="14" width="20" height="8" rx="1"/><circle cx="6" cy="6" r="1" fill="white"/><circle cx="6" cy="18" r="1" fill="white"/></svg>
+      </div>
+      <h3>服务器号</h3>
+      <div class="contact-value">3839982</div>
+      <p>在网易《我的世界》中国版客户端中添加服务器，输入此服务器号即可连接。支持手机、电脑等全平台网易我的世界客户端。</p>
+      <button class="copy-btn" onclick="copyText('3839982', this)">复制服务器号</button>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-icon qq">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>QQ 交流群</h3>
+      <div class="contact-value">1081097656</div>
+      <p>加入官方 QQ 群，获取最新服务器动态、活动通知和技术支持。与其他玩家交流攻略、组队冒险、分享建筑作品。</p>
+      <button class="copy-btn" onclick="copyText('1081097656', this)">复制群号</button>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-icon rule">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <h3>游戏规则</h3>
+      <div class="contact-value" style="font-size: 20px;">死亡不掉落</div>
+      <p>半规则生存服务器，死亡后物品和经验全部保留。请在加入前阅读游戏规则页面，了解服务器的核心机制和玩家公约。</p>
+      <a href="#rules" onclick="switchView('rules')" class="copy-btn" style="text-decoration: none;">查看规则</a>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-icon owner">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M2 20h20"/><path d="M4 20V9l4 3 4-6 4 6 4-3v11"/><path d="M12 3v3"/></svg>
+      </div>
+      <h3>服主 QQ</h3>
+      <div class="contact-value">1476773668</div>
+      <p>如有服务器相关问题、违规举报、合作建议或需要管理员协助，可添加服主 QQ 联系。添加时请备注来意，以便及时通过。</p>
+      <button class="copy-btn" onclick="copyText('1476773668', this)">复制 QQ 号</button>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-icon email">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h3>服主邮箱</h3>
+      <div class="contact-value" style="font-size: 16px; letter-spacing: 0;">MiriamG1943@outlook.com</div>
+      <p>正式事务联系、投诉反馈、文件提交等可通过邮件沟通。邮件会在 24 小时内回复，请在邮件标题中简要说明事由。</p>
+      <button class="copy-btn" onclick="copyText('MiriamG1943@outlook.com', this)">复制邮箱</button>
+    </div>
+  </div>
+
+  <!-- 加入指南 -->
+  <section class="guide-section">
+    <div class="section-header">
+      <div class="section-tag">新手指南</div>
+      <h2 class="section-title">如何加入服务器</h2>
+      <p class="section-desc">简单几步，即可开始你的生存冒险</p>
+    </div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-content">
+          <h4>打开网易我的世界</h4>
+          <p>确保你已安装网易《我的世界》中国版客户端（支持手机、Windows 电脑等平台）。使用网易账号登录后进入游戏主界面。国际版 Minecraft 客户端无法连接本服务器。</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-content">
+          <h4>搜索并加入服务器</h4>
+          <p>在游戏主界面进入「联机大厅」或「租赁服」页面，通过搜索功能输入服务器号 <strong style="color: var(--grass-light);">3839982</strong> 找到本服务器，点击「加入」即可进入游戏。也可将服务器收藏，方便下次快速进入。</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-content">
+          <h4>加入 QQ 交流群</h4>
+          <p>打开 QQ，搜索群号 <strong style="color: var(--grass-light);">1081097656</strong> 并申请加入。在群内可以获取最新的服务器公告、活动信息，遇到问题也可以随时@管理员求助。</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <div class="guide-step-content">
+          <h4>开始冒险</h4>
+          <p>一切就绪！点击服务器列表中的「璀璨之翼」即可进入游戏。记得先阅读出生点附近的规则牌，然后就可以自由探索、建造、冒险了。祝你游戏愉快！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="nav-logo-icon" style="width:32px;height:32px;"></div>
+      <span style="font-weight:900; color: var(--grass-light); font-size: 16px;">璀璨之翼</span>
+    </div>
+    <p class="footer-text">
+      服务器号：3839982 &nbsp;|&nbsp; QQ交流群：1081097656<br>
+      死亡不掉落 · 半规则生存服务器
+    </p>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">
+      &copy; 2026 璀璨之翼. 本服务器为网易《我的世界》中国版租赁服务器，本站为玩家自建服务器介绍网站，非网易官方网站，与网易公司、Mojang Studios / Microsoft 均无隶属关系。<br>
+      网易、我的世界及相关标识是网易公司及 Mojang Studios 的注册商标，归其各自所有者所有。
+    </p>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">已复制到剪贴板！</div>
+
+<script>
+// ===== 视图切换（hash 路由） =====
+function switchView(viewName) {
+  // 隐藏所有视图
+  document.querySelectorAll('.view').forEach(function(v) {
+    v.classList.remove('active');
+  });
+  // 显示目标视图
+  var target = document.getElementById('view-' + viewName);
+  if (target) {
+    target.classList.add('active');
+  }
+  // 更新导航高亮
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    if (a.getAttribute('data-view') === viewName) {
+      a.classList.add('active');
+    } else {
+      a.classList.remove('active');
+    }
+  });
+  // 关闭移动端菜单
+  document.getElementById('navLinks').classList.remove('open');
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 监听 hash 变化
+window.addEventListener('hashchange', function() {
+  var hash = window.location.hash.replace('#', '') || 'home';
+  var validViews = ['home', 'about', 'rules', 'contact'];
+  if (validViews.indexOf(hash) !== -1) {
+    switchView(hash);
+  }
+});
+
+// 页面加载时根据 hash 初始化
+window.addEventListener('load', function() {
+  var hash = window.location.hash.replace('#', '') || 'home';
+  var validViews = ['home', 'about', 'rules', 'contact'];
+  if (validViews.indexOf(hash) !== -1) {
+    switchView(hash);
+  } else {
+    switchView('home');
+  }
+});
+
+// ===== 移动端导航切换 =====
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ===== 复制到剪贴板 =====
+function copyText(text, btn) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      showToast();
+      markCopied(btn);
+    }).catch(function() {
+      fallbackCopy(text, btn);
+    });
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showToast();
+    markCopied(btn);
+  } catch (e) {
+    showToast('复制失败，请手动复制');
+  }
+  document.body.removeChild(textarea);
+}
+
+function markCopied(btn) {
+  var original = btn.textContent;
+  btn.classList.add('copied');
+  btn.textContent = '已复制！';
+  setTimeout(function() {
+    btn.classList.remove('copied');
+    btn.textContent = original;
+  }, 2000);
+}
+
+// ===== Toast 提示 =====
+var toastTimer = null;
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  if (msg) {
+    toast.textContent = msg;
+  } else {
+    toast.textContent = '已复制到剪贴板！';
+  }
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 2000);
+}
+
+// ===== 滚动揭示动画（IntersectionObserver） =====
+(function() {
+  if (!('IntersectionObserver' in window)) return;
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  var animatedElements = document.querySelectorAll('.feature-card, .gameplay-card, .contact-card, .rule-item, .guide-step');
+  animatedElements.forEach(function(el) {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
