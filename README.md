@@ -1,4 +1,4 @@
-# 方块世界 - Minecraft 服务器介绍网站
+# 租赁服游戏 - Minecraft 服务器介绍网站
 
 一个 Minecraft 像素风格的服务器介绍单页网站，使用纯 HTML/CSS/JS 编写，无需构建工具，可直接部署到 GitHub Pages。
 
